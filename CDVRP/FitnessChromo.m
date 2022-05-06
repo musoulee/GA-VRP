@@ -61,9 +61,10 @@ function [totalDistance, totalOilCost, totalRoutes, fitness] = FitnessChromo(Chr
     %% 计算适应值，难点在于平衡优先级，需要次优先级的无论如何也无法影响高优先级
     % 1.车辆数最少   [7,10]      ==>     [0.1,0.14]
     % 2.总油耗最小   [85,180]    ==>     [0.005,0.011]
+    % 2.1 总距离最小 [1000,2000] ==>     [0.0005,0.0001]
     % 3.装载率最平衡,都大于70% [.5,10.5] ==> [0.1,2]
     P1 = 1000;
-    P2 = 1000;
+    P2 = 10000;
     P3 = 1;
-    fitness = P1/totalRoutes + P2/totalOilCost + P3/(length(LoadByRoute(LoadByRoute>0.7))+.5);
+    fitness = P1/totalRoutes + P2/totalDistance + P3/(length(LoadByRoute(LoadByRoute>0.7))+.5);
 end
