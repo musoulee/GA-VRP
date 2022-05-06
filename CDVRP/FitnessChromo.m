@@ -64,7 +64,7 @@ function [totalDistance, totalOilCost, totalRoutes, fitness] = FitnessChromo(Chr
     % 2.1 总距离最小 [1000,2000] ==>     [0.0005,0.0001]
     % 3.装载率最平衡,都大于70% [.5,10.5] ==> [0.1,2]
     P1 = 1000;
-    P2 = 10000;
+    P2 = 1000;
     P3 = 1;
-    fitness = P1/totalRoutes + P2/totalDistance + P3/(length(LoadByRoute(LoadByRoute>0.7))+.5);
+    fitness = P1/totalRoutes + P2/totalOilCost + P3/(length(LoadByRoute(LoadByRoute>0.7))+.5);
 end

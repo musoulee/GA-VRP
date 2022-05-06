@@ -25,7 +25,7 @@ load("../testdata/Product.mat"); % 产品信息
 
 %% 遗传相关参数
 params.PopulationSize = 100;
-params.MaxGeneration = 1500;
+params.MaxGeneration = 250;
 params.ProbMutation = 0.05; 
 params.ProbCrossOver = 0.8;
 params.ProbSelection = 0.8;

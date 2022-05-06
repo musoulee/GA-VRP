@@ -49,6 +49,65 @@ function [c1, c2] = OX(p1,p2)
 end
 % LOX方法
 
+
+function [a,b]=intercross(a,b)
+    %% 类PMX方法交叉
+    %输入：
+    %a和b为两个待交叉的个体
+    %输出：
+    %a和b为交叉后得到的两个个体
+    
+    L=length(a); %获取亲代染色体长度
+    r1=unidrnd(L); %在1~L中随机选一整数
+    r2=unidrnd(L); %在1~L中随机选一整数
+    
+    s=min([r1,r2]); %起点为较小值
+    e=max([r1,r2]); %终点为较大值
+    
+    a0=a(s:e); %用于最后插入
+    b0=b(s:e); %用于最后插入
+    
+    aa=a(s:e); %用于检查重复元素
+    bb=b(s:e); %用于检查重复元素
+    
+    a(s:e)=[];     %去除交叉部分   去除后后面的元素会往前移
+    b(s:e)=[];     %去除交叉部分   去除后后面的元素会往前移
+    outlen=length(a); %去除交叉部分后，  a，b的长度   length outside cross section
+    inlen=length(a0);      %交叉部分长度  length inside cross section 
+    
+    for i=1:inlen     %交叉部分去除相同元素
+	    for j=1:inlen
+		    if aa(i)==bb(j) %若交叉部分内上下有相同元素
+			    aa(i)=0; %删去
+			    bb(j)=0;
+			    break  %  break能保证最后aa和bb一样长 且无重复元素
+		    end
+	    end
+    end
+    aa(aa==0)=[];   % 0置空后后面的元素往前移
+    bb(bb==0)=[];   % 0置空后后面的元素往前移
+    
+    exlen=length(aa);     %交叉部分去除相同元素后长度   length after deduplication
+    for i=1:exlen %ab上下去重后
+	    for j=1:outlen %交叉部分外
+		    if bb(i)==a(j)   %若交叉部分内上下有相同元素
+			    a(j)=aa(i); %冗余元素换为缺失元素
+			    break
+		    end
+	    end
+    end
+    
+    for i=1:exlen%ab上下去重后
+	    for j=1:outlen%交叉部分外
+		    if aa(i)==b(j) %若交叉部分内上下有相同元素
+			    b(j)=bb(i); %冗余元素换为缺失元素
+			    break
+		    end
+	    end
+    end
+    a=[a(1:s-1),b0,a(s:outlen)]; %重新拼接生成子代1
+    b=[b(1:s-1),a0,b(s:outlen)]; %重新拼接生成子代2
+end
 % 类PMX方法
 function [c1, c2] = PMX_LIKE(p1,p2)
     L = length(p1);
@@ -79,22 +138,15 @@ function [c1, c2] = PMX_LIKE(p1,p2)
     seq22(seq22==-1) = [];
     % 对于pp1中与seq2重复的基因，使用seq1中对应位置的基因替换
     for i = 1:length(seq22)
-        for j = 1:length(pp1)
-            if(pp1(j) == seq22(i))
-                pp1(j) = seq12(i);
-                break
-            end
+        for j = 1:length(seq22)
+            if(seq2)
         end
+        j = pp1==seq22(i); % 找到重复基因的索引
+        pp1(j) = seq12(i);
     end
-
     for i = 1:length(seq12)
-        for j = 1:length(pp2)
-            if(pp2(j) == seq12(i))
-                pp2(j) = seq22(i);
-                break
-            end
-        end
-    
+        j = pp2 == seq12(i);
+        pp2(j) = seq22(i);
     end
     c1 = [pp1(1:s-1), seq2, pp1(s:length(pp1))];
     c2 = [pp2(1:s-1), seq1, pp2(s:length(pp2))];
