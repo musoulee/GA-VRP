@@ -19,9 +19,9 @@ tic % 开始计时
 % .ProbSelection      健壮个体的概率
 
 %% 加载数据集
-load("testdata/Customer.mat"); % 客户点信息，包括车场
-load("testdata/Vehicle.mat"); % 车辆信息
-load("testdata/Product.mat"); % 产品信息
+load("../testdata/Customer.mat"); % 客户点信息，包括车场
+load("../testdata/Vehicle.mat"); % 车辆信息
+load("../testdata/Product.mat"); % 产品信息
 
 %% 遗传相关参数
 params.PopulationSize = 100;
@@ -100,7 +100,7 @@ end
 disp('------------------------------------------------------------------------------');
 
 %% 为结果创建文件夹
-fileDir = "output/" + string(datetime('now')).replace(["-",":"," "],""); 
+fileDir = "../output/" + string(datetime('now')).replace(["-",":"," "],""); 
 mkdir(fileDir);
 %% 保存迭代图
 saveas(h,fileDir+"/iter.png");
