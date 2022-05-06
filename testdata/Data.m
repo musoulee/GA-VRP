@@ -18,8 +18,8 @@ clc;clear;
 % Demand            客户点需求量
 rng(0); % 随机生成器
 %% 客户点数据
-Customer.Count = 40; 
-Customer.Index = [15 30 40]; % 三种产品的索引
+Customer.Count = 100; 
+Customer.Index = [30 60 100]; % 三种产品的索引
 Customer.LngLat = [rand(Customer.Count+1,1)* 0.804 + 105.4777, rand(Customer.Count+1,1)* 0.4228 + 32.2686]; 
 Customer.Distance = zeros(Customer.Count+1,Customer.Count+1);
 for i = 1:size(Customer.Distance,2)
