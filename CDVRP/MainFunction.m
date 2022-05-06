@@ -1,5 +1,5 @@
 clc;clear;close all;
-tic % 开始计时
+
 %% 遗传算法求解CDVRP
 % 输入：
 % CustomerNum         客户点数量
@@ -32,15 +32,16 @@ params.ProbSelection = 0.8;
 params.CrossMethod = 4; % 1 OX 2 LOX 3 PMX 4 PMX_LIKE
 params.MutationMethod = 1; % 1 随机交换 2 2-opt局部优化
 %% 遗传相关信息保存
+tic % 开始计时
 Population = InitPopulation(params,Customer,Vehicle,Product); % 初始化种群
 ChromosomeLength = Customer.Count + Vehicle.Count + 1; % 染色体长度
-
 bestChromosome = zeros(params.MaxGeneration, ChromosomeLength); % 历代最优个体
 maxFitness = zeros(params.MaxGeneration, 1); % 历代最优适应度
 minOilCost = zeros(params.MaxGeneration,1); % 油耗
 minDistance = zeros(params.MaxGeneration,1); % 行驶距离
 minRoutes = zeros(params.MaxGeneration, 1); % 车辆数
 %% 迭代计算
+
 for gen = 1: params.MaxGeneration 
     %% 计算种群适应度，最优个体
     [ttlDistance, ttlOilCost, ttlRoutes, Fitness] = FitnessPop(Population,Customer,Vehicle,Product);
@@ -67,7 +68,7 @@ end
 toc
 
 %% 迭代图
-h = figure
+h = figure;
 plot(1:1:params.MaxGeneration,minOilCost,'LineWidth',2)
 xlim([1 params.MaxGeneration]);
 set(gca, 'LineWidth',1);
